@@ -1,8 +1,13 @@
 ﻿using Cocos2D;
 using CocosDenshion;
+using LearningSimGame.components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace LearningSimGame
 {
@@ -13,7 +18,8 @@ namespace LearningSimGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        WorldState state = new WorldState();
+        WorldState state;
+        Texture2D texture;
 
         public Game1() : base()
         {
@@ -48,7 +54,39 @@ namespace LearningSimGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(base.GraphicsDevice);
+
+            state = new WorldState();
+
+          /*  List<Goods> goods = new List<Goods>();
+            var iron = new Goods();
+            iron.name = "ironOre";
+            iron.buildEffort = 0;
+            iron.cost = new List<System.Tuple<int, int>>();
+            iron.size = 100;
+            iron.id = 1;
+
+            var basicCircuity = new Goods();
+            basicCircuity.name = "basicCircuity";
+            basicCircuity.id = 5;
+            basicCircuity.buildEffort = 10;
+
+            var cost1 = Tuple.Create(1, 3);
+            var cost2 = Tuple.Create(2, 7);
+            var costs = new List<System.Tuple<int, int>>();
+            costs.Add(cost1);
+            costs.Add(cost2);
+            basicCircuity.cost = costs;
+            basicCircuity.size = 5;
+
+            goods.Add(iron);
+            goods.Add(basicCircuity);
+
+            string json = JsonSerializer.Serialize(goods);
+            File.WriteAllText(@"G:\Monogame\goods.json", json);*/
+
+            //ballTexture = Content.Load<Texture2D>("ball");
+            texture = base.Content.Load<Texture2D>("ball");
 
             // TODO: use this.Content to load your game content here
         }
@@ -78,6 +116,7 @@ namespace LearningSimGame
             var map = state.getMap();
             var val = map.GetValue(10, 10);
 
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -89,7 +128,23 @@ namespace LearningSimGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            base.GraphicsDevice.Clear(Color.CornflowerBlue);
+            System.Diagnostics.Debug.WriteLine("changed code");
+            spriteBatch.Begin();
+            var position = new Vector2(0, 0);
+            //spriteBatch.Draw(texture, position);
+            spriteBatch.Draw(texture, position, new Rectangle(new Point(50, 50), new Point(200, 200)), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, new Rectangle(50, 50, 300, 300), Color.White);
+            //spriteBatch.Draw(texture, new Vector2(0, 0), Color.White);
+
+
+            //var pixel = new Texture2D(base.GraphicsDevice, 1, 1);
+            //pixel.SetData<Color>(new Color[] { Color.White });
+            //spriteBatch.Draw(pixel, new Rectangle(0, 0, 500, 200), Color.Red);
+            
+
+
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 
